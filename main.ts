@@ -2,6 +2,15 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.y += -5
     Money += 1
 })
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    house.x = 1e+27
+    shop.setPosition(20, 15)
+    scene.setBackgroundImage(assets.image`city`)
+    music.knock.play()
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.knock.play()
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.x += -5
     Money += 1
@@ -14,12 +23,15 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.y += 5
     Money += 1
 })
-let car: Sprite = null
 let Money = 0
+let car: Sprite = null
+let house: Sprite = null
 let mySprite: Sprite = null
+let shop: Sprite = null
+game.showLongText("this game is full of bugs, sorry if you get an error if you get one report them to https://github.com/luohoa97/helpmefixthisgamewithMakeCodearcadeblocks", DialogLayout.Full)
 scene.setBackgroundImage(assets.image`city`)
 blockSettings.writeNumber("zoom", 0)
-let shop = sprites.create(img`
+shop = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . 7 . . . . . . . . . . . . 
@@ -41,51 +53,57 @@ shop.setPosition(20, 15)
 shop.changeScale(2, ScaleAnchor.Middle)
 mySprite = sprites.create(assets.image`car`, SpriteKind.Player)
 mySprite.setScale(3, ScaleAnchor.Middle)
-let house = sprites.create(assets.image`house`, SpriteKind.Projectile)
+house = sprites.create(assets.image`house`, SpriteKind.Projectile)
 house.x = -9999
 let mySprite2: number = sprites.create(assets.image`brought house`, SpriteKind.Projectile)
 mySprite2.setScale(5, ScaleAnchor.Middle)
 mySprite2.x = -999999999
-game.onUpdateInterval(100, function () {
-    animation.runImageAnimation(
-    car,
-    [img`
-        . . . . . f f f f . . . . . . . 
-        . . . . 6 6 6 6 f 6 6 6 . . . . 
-        . . . 6 9 6 6 6 f 6 6 c 6 . . . 
-        . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
-        . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
-        . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
-        . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
-        . 6 8 b b b 8 b b b b 8 6 6 6 6 
-        . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
-        . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
-        . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
-        . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
-        . 8 f f f f 8 8 8 8 f f f 8 8 8 
-        . . f f f f f 8 8 f f f f f 8 . 
-        . . . f f f . . . . f f f f . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . 1 6 6 6 6 f 6 6 6 . . . . 
-        . . . 6 9 6 6 6 f 6 6 c 6 . . . 
-        . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
-        . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
-        . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
-        . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
-        . 6 8 b b b 8 b b b b 8 6 6 6 6 
-        . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
-        . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
-        . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
-        . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
-        . 8 f f f f 8 8 8 8 f f f 8 8 8 
-        . . f f f f f 8 8 f f f f f 8 . 
-        . . . f f f . . . . f f f f . . 
-        . . . . . . . . . . . . . . . . 
-        `],
-    500,
-    true
-    )
+animation.runImageAnimation(
+car,
+[img`
+    . . . . . f f f f . . . . . . . 
+    . . . . 6 6 6 6 f 6 6 6 . . . . 
+    . . . 6 9 6 6 6 f 6 6 c 6 . . . 
+    . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
+    . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
+    . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
+    . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
+    . 6 8 b b b 8 b b b b 8 6 6 6 6 
+    . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
+    . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
+    . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
+    . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
+    . 8 f f f f 8 8 8 8 f f f 8 8 8 
+    . . f f f f f 8 8 f f f f f 8 . 
+    . . . f f f . . . . f f f f . . 
+    . . . . . . . . . . . . . . . . 
+    `,img`
+    . . . 1 6 6 6 6 f 6 6 6 . . . . 
+    . . . 6 9 6 6 6 f 6 6 c 6 . . . 
+    . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
+    . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
+    . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
+    . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
+    . 6 8 b b b 8 b b b b 8 6 6 6 6 
+    . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
+    . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
+    . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
+    . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
+    . 8 f f f f 8 8 8 8 f f f 8 8 8 
+    . . f f f f f 8 8 f f f f f 8 . 
+    . . . f f f . . . . f f f f . . 
+    . . . . . . . . . . . . . . . . 
+    `],
+500,
+true
+)
+forever(function () {
+    music.playMelody("C G A G F E F E ", 103)
+    music.playMelody("D F A F E F D F ", 120)
+    music.playMelody("F A F G F G A E ", 200)
+    music.playMelody("E E E F E D G F ", 70)
+    music.playMelody("F G F E G A D A ", 150)
+    music.playMelody("G F F F F A F A ", 170)
 })
 game.onUpdateInterval(0, function () {
     if (mySprite.overlapsWith(shop)) {
@@ -214,7 +232,7 @@ game.onUpdateInterval(0, function () {
                 `)
             shop.x = -9999999999999
             house.setPosition(71, 53)
-            if (car.overlapsWith(Money)) {
+            if (car.overlapsWith(house)) {
                 if (9 < Money) {
                     mySprite2 += -10
                     if (0 == house) {
