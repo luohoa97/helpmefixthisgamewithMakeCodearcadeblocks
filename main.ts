@@ -43,7 +43,7 @@ mySprite = sprites.create(assets.image`car`, SpriteKind.Player)
 mySprite.setScale(3, ScaleAnchor.Middle)
 let house = sprites.create(assets.image`house`, SpriteKind.Projectile)
 house.x = -9999
-let mySprite2 = sprites.create(assets.image`brought house`, SpriteKind.Projectile)
+let mySprite2: number = sprites.create(assets.image`brought house`, SpriteKind.Projectile)
 mySprite2.setScale(5, ScaleAnchor.Middle)
 mySprite2.x = -999999999
 game.onUpdateInterval(100, function () {
@@ -67,7 +67,6 @@ game.onUpdateInterval(100, function () {
         . . . f f f . . . . f f f f . . 
         . . . . . . . . . . . . . . . . 
         `,img`
-        . . . 1 1 f f f f . . . . . . . 
         . . . 1 6 6 6 6 f 6 6 6 . . . . 
         . . . 6 9 6 6 6 f 6 6 c 6 . . . 
         . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
@@ -215,11 +214,15 @@ game.onUpdateInterval(0, function () {
                 `)
             shop.x = -9999999999999
             house.setPosition(71, 53)
-            if (car.overlapsWith(house)) {
-                if ((9 as any) < (0 as any)) {
-                    mySprite2.setPosition(113, 35)
-                } else {
-                	
+            if (car.overlapsWith(Money)) {
+                if (9 < Money) {
+                    mySprite2 += -10
+                    if (0 == house) {
+                        house = 1
+                        mySprite2.setPosition(113, 35)
+                    } else {
+                        Money += 10
+                    }
                 }
             }
         }
